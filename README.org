@@ -1,0 +1,50 @@
+* zynqmp-buildroot-skeleton
+skeleton Linux+FPGA project for the Zynq UltraScale+ MPSoC (ZynqMP)
+
+** Components
+
+*** Firmware
+The ZynqMP programmable logic (PL) bitstream utilizes a project-based flow,
+generating a Xilinx Vivado project from source controlled files.
+
+*** Software
+The ZynqMP processing system (PS) runs a Linux kernel build using
+[[Buildroot][https://github.com/buildroot/buildroot]].
+
+** Building
+This project uses a Makefile-based build flow.
+
+The top level Makefile orchestrates building the software and firmware.
+The software and firmware submodules are also themselves Makefile projects.
+
+*** Firmware
+Targets starting with `firmware-` are passed to the firmware submake:
+
+#+NAME: firmware submake examples
+#+begin_src shell :eval no
+  make firmware-clean # clean the firmware subproject
+  make firmware-dist  # create artifacts consumed by software
+#+END_SRC
+
+Most of the firmware targets are just wrappers for TCL scripts in [[/firmware/script]].
+
+*** Software
+Targets starting with `software-` are passed to the software submake:
+
+#+NAME: software submake examples
+#+begin_src shell :eval no
+  make software-clean # clean the software subproject
+  make software-sdk   # create SDK artifact for building external software
+#+end_src
+
+Targets starting with `software-buildroot-` are pass to the buildroot submake
+in the software subproject:
+
+#+NAME: buildroot software submake examples
+#+begin_src shell :eval no
+  make software-buildroot-clean                 # clean buildroot artifacts
+  make software-buildroot-sdk                   # generate buildroot SDK
+  make software-buildroot-menuconfig            # interactively configure buildroot
+  make software-buildroot-zynq_zcu102_defconfig # same as `make -C buildroot zynq_zcu102_defconfig`
+  make software-buildroot-safedefconfig         # save a modified buildroot configuration
+#+end_src

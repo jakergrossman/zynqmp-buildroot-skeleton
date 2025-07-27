@@ -1,0 +1,6 @@
+/BUILD/
+*.jou
+*.log
+*.bit
+*.o
+*.bin
